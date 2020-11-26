@@ -1,0 +1,9 @@
+{
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/go/src/app",
+  "initializeCommand": "cp -n .devcontainer/app.env.example .devcontainer/app.env",
+  "extensions": [
+    "golang.go",
+  ]
+}

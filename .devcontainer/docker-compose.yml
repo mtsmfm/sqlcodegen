@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  app:
+    init: true
+    build:
+      context: .
+    command: sleep infinity
+    env_file:
+      - app.env
+    volumes:
+      - ..:/go/src/app:cached
+      - dotconfig:/home/app/.config
+
+  postgres:
+    image: postgres:12.4-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  dotconfig:
+  pgdata:
