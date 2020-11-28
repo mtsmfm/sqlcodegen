@@ -1,0 +1,12 @@
+out:
+  package: sqlstructs
+  file: sqlstructs/sqlstructs.go
+tags:
+  - db
+  - json
+  #- yaml
+  #- toml
+typemap:
+  bigint: int
+  uuid: string
+  text: string

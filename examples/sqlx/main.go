@@ -6,6 +6,8 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+
+	"github.com/mtsmfm/sqlcodegen/examples/sqlx/sqlstructs"
 )
 
 func main() {
@@ -26,14 +28,41 @@ func main() {
 		panic(err)
 	}
 
-	var results []interface{}
-	err = db.Select(&results, "SELECT id FROM users LIMIT 5")
+	db.Exec(`
+		INSERT INTO users VALUES (1, 'a')
+	`)
+
+	var results1 []sqlstructs.IdInt
+	err = db.Select(&results1, "SELECT id FROM users LIMIT 5")
+	if err != nil {
+		panic(err)
+	}
+	for _, result := range results1 {
+		log.Printf("%+v", result)
+	}
+
+	var results2 []sqlstructs.Foo
+	// sqlcodegen:name Foo
+	err = db.Select(&results2, "SELECT firebase_auth_uid FROM users LIMIT 5")
+	if err != nil {
+		panic(err)
+	}
+	for _, result := range results2 {
+		log.Printf("%+v", result)
+	}
+
+	var results3 []sqlstructs.IdIntFirebaseAuthUidString
+	err = db.Select(&results3, `
+		SELECT *
+		FROM
+		users
+		LIMIT 5
+	`)
 
 	if err != nil {
 		panic(err)
 	}
-
-	for _, result := range results {
-		log.Printf("%v", result)
+	for _, result := range results3 {
+		log.Printf("%+v", result)
 	}
 }
