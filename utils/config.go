@@ -48,6 +48,9 @@ func FindConfigPath() (string, error) {
 func LoadConfig(path string) (*Config, error) {
 	var cfg *Config
 	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
 
 	err = yaml.Unmarshal(file, &cfg)
 
