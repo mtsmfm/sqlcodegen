@@ -1,6 +1,6 @@
 # sqlcodegen
 
-Generate struct from SQL string literals.
+Generate Go structs from SQL string literals.
 
 Currently supports only PostgreSQL.
 
