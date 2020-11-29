@@ -111,9 +111,7 @@ func extractAllSQLStringLiterals(dir string) ([]utils.StringLiteral, error) {
 			return nil, err
 		}
 
-		for _, x := range xs {
-			sqlLiterals = append(sqlLiterals, x)
-		}
+		sqlLiterals = append(sqlLiterals, xs...)
 	}
 
 	return sqlLiterals, nil
