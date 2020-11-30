@@ -19,3 +19,6 @@ USER $USERNAME
 WORKDIR /go/src/app
 
 ENV SHELL=/bin/bash
+ENV LANG=C.UTF-8 \
+  LANGUAGE=C.UTF-8 \
+  LC_ALL=C.UTF-8

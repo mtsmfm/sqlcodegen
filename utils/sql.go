@@ -2,6 +2,7 @@ package utils
 
 import (
 	"io"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -13,12 +14,6 @@ type SqlResultColumn struct {
 
 func AnalyzeSQL(sql string, url string) ([]SqlResultColumn, error) {
 	cmd := exec.Command("psql", url, "-A", "-F,", "-t")
-	// To suppress perl: warning: Setting locale failed.
-	cmd.Env = []string{
-		"LANG=C.UTF-8",
-		"LANGUAGE=C.UTF-8",
-		"LC_ALL=C.UTF-8",
-	}
 	stdin, err := cmd.StdinPipe()
 	if err != nil {
 		return nil, err
@@ -29,7 +24,9 @@ func AnalyzeSQL(sql string, url string) ([]SqlResultColumn, error) {
 		io.WriteString(stdin, sql+"\\gdesc")
 	}()
 
-	out, err := cmd.CombinedOutput()
+	cmd.Stderr = os.Stderr
+
+	out, err := cmd.Output()
 	if err != nil {
 		return nil, err
 	}
