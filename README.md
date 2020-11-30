@@ -44,7 +44,7 @@ type IdInt struct {
 4. Use struct
 
 ```golang
-var results []sqlstruct.IdInt
+var results []sqlstructs.IdInt
 err = db.Select(&results, "SELECT id FROM users")
 ```
 
