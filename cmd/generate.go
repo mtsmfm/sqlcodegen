@@ -119,7 +119,7 @@ func extractAllSQLStringLiterals(dir string) ([]utils.StringLiteral, error) {
 
 func buildStructName(cfg *utils.Config, columns []utils.SqlResultColumn, sql utils.StringLiteral) (string, error) {
 	if sql.Comment != "" {
-		result := regexp.MustCompile(`// sqlcodegen:name (\w+)`).FindStringSubmatch(sql.Comment)
+		result := regexp.MustCompile(`// sqlcodegen (\w+)`).FindStringSubmatch(sql.Comment)
 		if len(result) == 2 {
 			return result[1], nil
 		}

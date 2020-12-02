@@ -51,10 +51,10 @@ err = db.Select(&results, "SELECT id FROM users")
 ### Specify struct name
 
 You can specify struct name via comment.
-Write `// sqlcodegen:name <struct name>` just before the string literal:
+Write `// sqlcodegen <struct name>` just before the string literal:
 
 ```golang
-// sqlcodegen:name Foo
+// sqlcodegen Foo
 err = db.Select(&results, "SELECT id FROM users")
 ```
 

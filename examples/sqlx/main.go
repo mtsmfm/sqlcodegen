@@ -42,7 +42,7 @@ func main() {
 	}
 
 	var results2 []sqlstructs.Foo
-	// sqlcodegen:name Foo
+	// sqlcodegen Foo
 	err = db.Select(&results2, "SELECT firebase_auth_uid FROM users LIMIT 5")
 	if err != nil {
 		panic(err)
