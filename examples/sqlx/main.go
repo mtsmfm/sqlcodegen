@@ -10,6 +10,7 @@ import (
 	"github.com/mtsmfm/sqlcodegen/examples/sqlx/sqlstructs"
 )
 
+//go:generate go run github.com/mtsmfm/sqlcodegen g
 func main() {
 	db, err := sqlx.Open("postgres", os.Getenv("DATABASE_URL"))
 
