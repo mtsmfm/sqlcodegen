@@ -25,6 +25,7 @@ tags:
   #- toml
 typemap:
   bigint: int
+  integer: int
   uuid: string
   text: string
 `))
