@@ -26,3 +26,12 @@ type Bar struct {
 	Id              int    `db:"id" json:"id"`
 	FirebaseAuthUid string `db:"firebase_auth_uid" json:"firebase_auth_uid"`
 }
+
+/*
+	SELECT users.*, title FROM users JOIN posts ON users.id = posts.id
+*/
+type JoinExample struct {
+	Id              int    `db:"id" json:"id"`
+	FirebaseAuthUid string `db:"firebase_auth_uid" json:"firebase_auth_uid"`
+	Title           string `db:"title" json:"title"`
+}

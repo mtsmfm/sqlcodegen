@@ -23,6 +23,12 @@ func main() {
 			id bigint PRIMARY KEY,
 			firebase_auth_uid text NOT NULL UNIQUE
 		);
+
+		CREATE TABLE IF NOT EXISTS posts (
+			id integer PRIMARY KEY,
+			user_id bigint NOT NULL REFERENCES users,
+			title character(100)
+		);
 	`)
 
 	if err != nil {
@@ -31,6 +37,10 @@ func main() {
 
 	db.Exec(`
 		INSERT INTO users VALUES (1, 'a')
+	`)
+
+	db.Exec(`
+		INSERT INTO posts VALUES (1, 1, 'hello world')
 	`)
 
 	var results1 []sqlstructs.X
@@ -66,6 +76,20 @@ func main() {
 		panic(err)
 	}
 	for _, result := range results3 {
+		log.Printf("%+v", result)
+	}
+
+	joinExample(db)
+}
+
+func joinExample(db *sqlx.DB) {
+	var results []sqlstructs.JoinExample
+	// sqlcodegen JoinExample
+	err := db.Select(&results, "SELECT users.*, title FROM users JOIN posts ON users.id = posts.id")
+	if err != nil {
+		panic(err)
+	}
+	for _, result := range results {
 		log.Printf("%+v", result)
 	}
 }

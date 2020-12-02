@@ -8,5 +8,7 @@ tags:
   #- toml
 typemap:
   bigint: int
+  integer: int
   uuid: string
   text: string
+  character(100): string
