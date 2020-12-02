@@ -56,6 +56,14 @@ func RunGenerate() error {
 
 		structNameMap[structName] = true
 
+		for i, c1 := range columns {
+			for j, c2 := range columns {
+				if c1.Name == c2.Name && i != j {
+					return fmt.Errorf("SQL `%s` returns ambigious column `%s`\n-- SQL --\n%s\n---------\n", structName, c1.Name, sqlStr.Value)
+				}
+			}
+		}
+
 		buf.WriteString(utils.Comment(sqlStr.Value))
 		buf.WriteString("type " + structName + " struct {" + "\n")
 
