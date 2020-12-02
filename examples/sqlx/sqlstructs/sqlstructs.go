@@ -5,7 +5,7 @@ package sqlstructs
 /*
 	SELECT id FROM users LIMIT 5
 */
-type IdInt struct {
+type X struct {
 	Id int `db:"id" json:"id"`
 }
 
@@ -22,7 +22,7 @@ type Foo struct {
 	users
 	LIMIT 5
 */
-type IdIntFirebaseAuthUidString struct {
+type Bar struct {
 	Id              int    `db:"id" json:"id"`
 	FirebaseAuthUid string `db:"firebase_auth_uid" json:"firebase_auth_uid"`
 }

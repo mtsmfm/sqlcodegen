@@ -20,7 +20,7 @@ type StringLiteral struct {
 	Comment string
 }
 
-func ExtractStringLiterals(filePath string, re *regexp.Regexp) ([]StringLiteral, error) {
+func ExtractCommentedStringLiterals(filePath string, re *regexp.Regexp) ([]StringLiteral, error) {
 	fset := token.NewFileSet()
 	src, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -43,19 +43,18 @@ func ExtractStringLiterals(filePath string, re *regexp.Regexp) ([]StringLiteral,
 				if err != nil {
 					break
 				}
+				line := fset.Position(v.Pos()).Line
+				var comment string
 
-				if re.MatchString(str) {
-					line := fset.Position(v.Pos()).Line
-					var comment string
-
-					for _, cg := range file.Comments {
-						for _, c := range cg.List {
-							if fset.Position(c.Pos()).Line == line-1 {
-								comment = c.Text
-							}
+				for _, cg := range file.Comments {
+					for _, c := range cg.List {
+						if fset.Position(c.Pos()).Line == line-1 {
+							comment = c.Text
 						}
 					}
+				}
 
+				if re.MatchString(comment) {
 					results = append(results, StringLiteral{Value: str, Comment: comment})
 				}
 			}

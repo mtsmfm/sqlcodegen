@@ -106,7 +106,7 @@ func extractAllSQLStringLiterals(dir string) ([]utils.StringLiteral, error) {
 	}
 
 	for _, f := range files {
-		xs, err := utils.ExtractStringLiterals(f, regexp.MustCompile(`(?is)^\s*SELECT `))
+		xs, err := utils.ExtractCommentedStringLiterals(f, regexp.MustCompile(`// sqlcodegen (\w+)`))
 		if err != nil {
 			return nil, err
 		}
@@ -118,28 +118,12 @@ func extractAllSQLStringLiterals(dir string) ([]utils.StringLiteral, error) {
 }
 
 func buildStructName(cfg *utils.Config, columns []utils.SqlResultColumn, sql utils.StringLiteral) (string, error) {
-	if sql.Comment != "" {
-		result := regexp.MustCompile(`// sqlcodegen (\w+)`).FindStringSubmatch(sql.Comment)
-		if len(result) == 2 {
-			return result[1], nil
-		}
+	result := regexp.MustCompile(`// sqlcodegen (\w+)`).FindStringSubmatch(sql.Comment)
+	if len(result) == 2 {
+		return result[1], nil
 	}
 
-	var structName string
-
-	for _, col := range columns {
-		if structName != "" {
-			structName += "_"
-		}
-
-		t, err := goTypeFor(cfg, col.Type)
-		if err != nil {
-			return "", err
-		}
-		structName += col.Name + "_" + t
-	}
-
-	return strcase.ToCamel(structName), nil
+	return "", fmt.Errorf("Struct name is wrong %+v", result)
 }
 
 func goTypeFor(cfg *utils.Config, sqlType string) (string, error) {

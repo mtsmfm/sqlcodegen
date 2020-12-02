@@ -33,7 +33,8 @@ func main() {
 		INSERT INTO users VALUES (1, 'a')
 	`)
 
-	var results1 []sqlstructs.IdInt
+	var results1 []sqlstructs.X
+	// sqlcodegen X
 	err = db.Select(&results1, "SELECT id FROM users LIMIT 5")
 	if err != nil {
 		panic(err)
@@ -52,7 +53,8 @@ func main() {
 		log.Printf("%+v", result)
 	}
 
-	var results3 []sqlstructs.IdIntFirebaseAuthUidString
+	var results3 []sqlstructs.Bar
+	// sqlcodegen Bar
 	err = db.Select(&results3, `
 		SELECT *
 		FROM
