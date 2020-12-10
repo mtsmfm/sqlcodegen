@@ -37,6 +37,10 @@ func RunGenerate() error {
 	buf.WriteString("\n")
 	buf.WriteString("package " + config.Out.Package + "\n")
 
+	for _, p := range config.Imports {
+		buf.WriteString(fmt.Sprintf("import \"%s\"\n", p))
+	}
+
 	structNameMap := make(map[string]bool)
 
 	for _, sqlStr := range sqlStringLiterals {
@@ -97,7 +101,7 @@ func RunGenerate() error {
 		return err
 	}
 	file, err := os.Create(targetFilePath)
-	file.Write(utils.Gofmt(buf))
+	file.Write(utils.Format(targetFilePath, buf))
 	if err != nil {
 		return err
 	}

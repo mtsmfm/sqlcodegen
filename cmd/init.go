@@ -23,11 +23,15 @@ tags:
   - json
   #- yaml
   #- toml
+imports:
+  - github.com/lib/pq
+  - database/sql
 typemap:
-  bigint: int
-  integer: int
-  uuid: string
-  text: string
+  bigint: sql.NullInt64
+  integer: sql.NullInt64
+  uuid: sql.NullString
+  text: sql.NullString
+  text[]: pq.StringArray
 `))
 
 	file.WriteString("\n")

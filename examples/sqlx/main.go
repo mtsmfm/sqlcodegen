@@ -18,6 +18,16 @@ func main() {
 		panic(err)
 	}
 
+	_, err = db.Exec("DROP TABLE IF EXISTS posts")
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = db.Exec("DROP TABLE IF EXISTS users")
+	if err != nil {
+		panic(err)
+	}
+
 	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS users (
 			id bigint PRIMARY KEY,
@@ -27,7 +37,8 @@ func main() {
 		CREATE TABLE IF NOT EXISTS posts (
 			id integer PRIMARY KEY,
 			user_id bigint NOT NULL REFERENCES users,
-			title character(100)
+			title character(100),
+			tags text[]
 		);
 	`)
 
@@ -40,7 +51,7 @@ func main() {
 	`)
 
 	db.Exec(`
-		INSERT INTO posts VALUES (1, 1, 'hello world')
+		INSERT INTO posts VALUES (1, 1, 'hello world', '{"hello", "world"}')
 	`)
 
 	var results1 []sqlstructs.X

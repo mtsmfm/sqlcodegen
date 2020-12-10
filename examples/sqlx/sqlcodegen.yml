@@ -1,14 +1,18 @@
 out:
   package: sqlstructs
   file: sqlstructs/sqlstructs.go
+imports:
+  - github.com/lib/pq
+  - database/sql
 tags:
   - db
   - json
   #- yaml
   #- toml
 typemap:
-  bigint: int
+  bigint: sql.NullInt64
   integer: int
   uuid: string
   text: string
   character(100): string
+  text: sql.NullString

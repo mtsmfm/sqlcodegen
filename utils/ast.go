@@ -3,7 +3,6 @@ package utils
 import (
 	"bytes"
 	"go/ast"
-	"go/format"
 	"go/parser"
 	"go/token"
 	"io/ioutil"
@@ -13,6 +12,7 @@ import (
 	"strings"
 
 	"golang.org/x/tools/go/ast/astutil"
+	"golang.org/x/tools/imports"
 )
 
 type StringLiteral struct {
@@ -30,7 +30,8 @@ func ExtractCommentedStringLiterals(filePath string, re *regexp.Regexp) ([]Strin
 	file, err := parser.ParseFile(fset, filePath, src, parser.ParseComments)
 
 	if err != nil {
-		return nil, err
+		log.Printf("Parse error %+v", err)
+		return nil, nil
 	}
 
 	var results []StringLiteral
@@ -65,11 +66,10 @@ func ExtractCommentedStringLiterals(filePath string, re *regexp.Regexp) ([]Strin
 	return results, nil
 }
 
-func Gofmt(buf bytes.Buffer) []byte {
-	src, err := format.Source(buf.Bytes())
-
+func Format(filename string, buf bytes.Buffer) []byte {
+	src, err := imports.Process(filename, buf.Bytes(), nil)
 	if err != nil {
-		log.Printf("gofmt failed: %+v", err)
+		log.Printf("format failed: %+v", err)
 		return buf.Bytes()
 	}
 

@@ -2,18 +2,20 @@
 
 package sqlstructs
 
+import "database/sql"
+
 /*
 	SELECT id FROM users LIMIT 5
 */
 type X struct {
-	Id int `db:"id" json:"id"`
+	Id sql.NullInt64 `db:"id" json:"id"`
 }
 
 /*
 	SELECT firebase_auth_uid FROM users LIMIT 5
 */
 type Foo struct {
-	FirebaseAuthUid string `db:"firebase_auth_uid" json:"firebase_auth_uid"`
+	FirebaseAuthUid sql.NullString `db:"firebase_auth_uid" json:"firebase_auth_uid"`
 }
 
 /*
@@ -23,15 +25,15 @@ type Foo struct {
 	LIMIT 5
 */
 type Bar struct {
-	Id              int    `db:"id" json:"id"`
-	FirebaseAuthUid string `db:"firebase_auth_uid" json:"firebase_auth_uid"`
+	Id              sql.NullInt64  `db:"id" json:"id"`
+	FirebaseAuthUid sql.NullString `db:"firebase_auth_uid" json:"firebase_auth_uid"`
 }
 
 /*
 	SELECT users.*, title FROM users JOIN posts ON users.id = posts.id
 */
 type JoinExample struct {
-	Id              int    `db:"id" json:"id"`
-	FirebaseAuthUid string `db:"firebase_auth_uid" json:"firebase_auth_uid"`
-	Title           string `db:"title" json:"title"`
+	Id              sql.NullInt64  `db:"id" json:"id"`
+	FirebaseAuthUid sql.NullString `db:"firebase_auth_uid" json:"firebase_auth_uid"`
+	Title           string         `db:"title" json:"title"`
 }

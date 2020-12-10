@@ -16,6 +16,7 @@ type Config struct {
 	}
 	Tags    []string
 	Typemap map[string]string
+	Imports []string
 }
 
 var ConfigFileName = "sqlcodegen.yml"
